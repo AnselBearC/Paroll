@@ -9,9 +9,7 @@
  * @Author:Ansel
  * @Date: 2020/4/24$ 下午 03:17$
  */
-
 package com.example.demo.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,5 +22,9 @@ public class ThymeleafController {
     public String index(ModelMap map) {
         map.addAttribute("name","Ansel");
         return "index";
+    }
+    @RequestMapping(value="/test")
+    public String page() {
+        return "page/test";
     }
 }
