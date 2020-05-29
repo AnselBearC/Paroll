@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.ansel.payroll.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 1.0.0
  */
 @Configuration
-@MapperScan("com.ansel.payroll.mbg.mapper")
+@MapperScan({"com.ansel.payroll.mbg.mapper","com.ansel.payroll.dao"})
 public class MyBatisConfig {
 }

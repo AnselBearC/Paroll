@@ -1,4 +1,4 @@
-package com.example.demo.mbg;
+package com.ansel.payroll.mbg;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;

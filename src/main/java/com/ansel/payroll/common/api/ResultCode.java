@@ -10,7 +10,7 @@
  * @Date: 2020/5/22$ 上午 10:53$
  */
 
-package com.example.demo.common.api;
+package com.ansel.payroll.common.api;
 
 public enum ResultCode implements  IErrorCode{
 

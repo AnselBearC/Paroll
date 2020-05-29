@@ -10,7 +10,7 @@
  * @Date: 2020/4/13$ 下午 04:15$
  */
 
-package com.example.demo.bean;
+package com.ansel.payroll.bean;
 
 public class Result<T> {
     //返回信息

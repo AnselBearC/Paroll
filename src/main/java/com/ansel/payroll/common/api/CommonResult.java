@@ -10,9 +10,12 @@
  * @Date: 2020/5/22$ 上午 11:03$
  */
 
-package com.example.demo.common.api;
+package com.ansel.payroll.common.api;
 
 public class CommonResult<T> {
+    private long code;
+    private String message;
+    private T data;
 
     protected CommonResult() {
     }
@@ -22,6 +25,7 @@ public class CommonResult<T> {
         this.message = message;
         this.data = data;
     }
+
     /**
      * 成功返回结果
      *
@@ -40,6 +44,7 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> success(T data, String message) {
         return new CommonResult<T>(ResultCode.SUCCESS.getCode(), message, data);
     }
+
     /**
      * 失败返回结果
      * @param errorCode 错误码
@@ -47,6 +52,7 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> failed(IErrorCode errorCode) {
         return new CommonResult<T>(errorCode.getCode(), errorCode.getMessage(), null);
     }
+
     /**
      * 失败返回结果
      * @param message 提示信息
@@ -55,6 +61,27 @@ public class CommonResult<T> {
         return new CommonResult<T>(ResultCode.FAILED.getCode(), message, null);
     }
 
+    /**
+     * 失败返回结果
+     */
+    public static <T> CommonResult<T> failed() {
+        return failed(ResultCode.FAILED);
+    }
+
+    /**
+     * 参数验证失败返回结果
+     */
+    public static <T> CommonResult<T> validateFailed() {
+        return failed(ResultCode.VALIDATE_FAILED);
+    }
+
+    /**
+     * 参数验证失败返回结果
+     * @param message 提示信息
+     */
+    public static <T> CommonResult<T> validateFailed(String message) {
+        return new CommonResult<T>(ResultCode.VALIDATE_FAILED.getCode(), message, null);
+    }
 
     public long getCode() {
         return code;
@@ -64,7 +91,20 @@ public class CommonResult<T> {
         this.code = code;
     }
 
-    private long code;
-    String message;
-    private T data;
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
 }
