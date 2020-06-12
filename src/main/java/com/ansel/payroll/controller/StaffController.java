@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Api(tags = "staffController",description = "员工管理")
@@ -35,7 +36,6 @@ public class StaffController {
 
     @Autowired
     private StaffService staffService;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(StaffController.class);
 
     @ApiOperation("获取所有员工列表")
@@ -47,7 +47,9 @@ public class StaffController {
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult createStaff (@RequestBody PyStaff pyStaff) {
+        Date date = new Date();
         CommonResult commonResult;
+        pyStaff.setCreatTime(date);
         int count = staffService.creatStaff(pyStaff);
         if(count == 1) {
             commonResult = CommonResult.success(pyStaff);
@@ -63,7 +65,9 @@ public class StaffController {
     @RequestMapping(value = "/update/{id}",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateStaff(@PathVariable("id") Integer id, @RequestBody PyStaff pyStaffDto, BindingResult result){
+        Date date = new Date();
         CommonResult commonResult;
+        pyStaffDto.setUpdateTime(date);
         int count = staffService.updateStaff(id,pyStaffDto);
         if(count==1) {
             commonResult = CommonResult.success(pyStaffDto);
@@ -95,9 +99,17 @@ public class StaffController {
     public CommonResult<CommonPage<PyStaff>> listStaff(@RequestParam(value = "pageNum",defaultValue = "1")
                                                        @ApiParam("页码") Integer pageNum,
                                                        @RequestParam(value = "pageSize",defaultValue = "3")
-                                                       @ApiParam("每页数量") Integer pageSize) {
-        List<PyStaff> staffList = staffService.listStaff(pageNum,pageSize);
-        return CommonResult.success(CommonPage.restPage(staffList));
+                                                       @ApiParam("每页数量") Integer pageSize,
+                                                       @RequestParam(value = "name",defaultValue = "")
+                                                       String name) {
+        if (name.equalsIgnoreCase("")) {
+            List<PyStaff> staffList = staffService.listStaff(pageNum,pageSize);
+            return CommonResult.success(CommonPage.restPage(staffList));
+        }else {
+            List<PyStaff> staffList = staffService.staffByName(pageNum,pageSize,name);
+            return CommonResult.success(CommonPage.restPage(staffList));
+        }
+
     }
 
     @ApiOperation("获取指定id的员工详情")

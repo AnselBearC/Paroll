@@ -55,6 +55,19 @@ public class StaffServiceImpl implements StaffService {
         PageHelper.startPage(pageNum,pageSize);
         return pyStaffMapper.selectByExample(new PyStaffExample());
     }
+    @Override
+    public long totalStaff(){
+        return pyStaffMapper.countByExample(new PyStaffExample());
+    }
+
+    @Override
+    public List<PyStaff> staffByName(int pageNum, int pageSize,String name) {
+        PyStaffExample psExample = new PyStaffExample();
+        PyStaffExample.Criteria criteria = psExample.createCriteria();
+        PageHelper.startPage(pageNum,pageSize);
+        criteria.andNameLike("%"+name+"%");
+        return pyStaffMapper.selectByExample(psExample);
+    }
 
     @Override
     public PyStaff getStaff(Integer id) {

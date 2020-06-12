@@ -1,7 +1,7 @@
 {
   "homeInfo": {
     "title": "首页",
-    "href": "page/welcome-1.html?t=1"
+    "href": "page/home-page?t=1"
   },
   "logoInfo": {
     "title": "Payroll",
@@ -23,7 +23,7 @@
           "child": [
             {
               "title": "基本资料",
-              "href": "page/welcome-1.html",
+              "href": "page/employee.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }
@@ -36,14 +36,14 @@
           "target": "_self",
           "child": [
             {
-              "title": "订单资料",
-              "href": "page/welcome-1.html",
+              "title": "订单管理",
+              "href": "page/orderform.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             },
             {
-              "title": "工序资料",
-              "href": "page/welcome-1.html",
+              "title": "工序管理",
+              "href": "page/process.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }
@@ -63,6 +63,32 @@
             },
             {
               "title": "薪资结算",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "系统管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "操作日志管理",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "备份恢复数据库",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "初始化数据库",
               "href": "page/welcome-1.html",
               "icon": "fa fa-tachometer",
               "target": "_self"

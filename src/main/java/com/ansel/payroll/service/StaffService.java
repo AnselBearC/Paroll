@@ -28,5 +28,9 @@ public interface StaffService {
 
     List<PyStaff> listStaff(int pageNum,int pageSize);
 
+    long totalStaff();
+
+    List<PyStaff> staffByName (int pageNum,int pageSize,String name);
+
     PyStaff getStaff(Integer id);
 }
