@@ -47,7 +47,7 @@
             layer = layui.layer,
             $ = layui.jquery;
         //获取选中的数据并赋值给表单
-        var processData = localStorage.getItem('uptateProcess');
+        var processData = parent.layui.$('#hidValue').val(); // 获取父页面中id为“hidValue”的值。
         var processJson = JSON.parse(processData);
         //赋值给表单
         form.val("processForm",processJson);
@@ -70,7 +70,6 @@
                         parent.layer.close(iframeIndex);
                         parent.layui.table.reload("currentTableId");
                         parent.layer.msg('修改成功');
-                        localStorage.removeItem('uptateProcess');
                     }, error: function () {
                         localStorage.removeItem('uptateProcess');
                         layer.msg('修改失败');

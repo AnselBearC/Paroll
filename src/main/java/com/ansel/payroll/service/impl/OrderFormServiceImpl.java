@@ -30,7 +30,9 @@ public class OrderFormServiceImpl implements OrderFormService {
 
     @Override
     public List<PyOrderForm> listAllOrderForm() {
-        return pyOrderFormMapper.selectByExample(new PyOrderFormExample());
+        PyOrderFormExample ofExample = new PyOrderFormExample();
+        ofExample.setOrderByClause("id desc");
+        return pyOrderFormMapper.selectByExample(ofExample);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class OrderFormServiceImpl implements OrderFormService {
     @Override
     public List<PyOrderForm> listOrderForm(int pageNum, int pageSize) {
         PyOrderFormExample ofExample = new PyOrderFormExample();
-        ofExample.setOrderByClause("id ASC");
+        ofExample.setOrderByClause("id desc");
         PageHelper.startPage(pageNum,pageSize);
         return pyOrderFormMapper.selectByExample(ofExample);
     }

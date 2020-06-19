@@ -24,6 +24,16 @@ body {
     top: 6px;
     right: 5px;
 }
+.layuimini-form > .layui-form-item >.layui-inline> .required:after {
+    content: '*';
+    color: red;
+    position: absolute;
+    margin-left: 4px;
+    font-weight: bold;
+    line-height: 1.8em;
+    top: 6px;
+    right: 5px;
+}
 
 .layuimini-form > .layui-form-item > .layui-form-label {
     width: 120px !important;

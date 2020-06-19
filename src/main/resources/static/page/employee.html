@@ -47,6 +47,7 @@
 
     </div>
 </div>
+<input id="hidValue" style="display: none">
 <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table'], function () {
@@ -81,9 +82,9 @@
                 {field: 'name', width: 100, title: '姓名'},
                 {field: 'sex', width: 80, title: '性别',templet:function (d) {
                         if (d.sex===0) {
-                            return '女';
+                            return '<span style="color: #ff5722">女</span>';
                         }else {
-                            return '男';
+                            return '<span style="color: #1e9fff">男</span>';
                         }
 
                     }},
@@ -133,7 +134,7 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['50%', '70%'],
-                    content: '/page/table/st/staffadd.html'
+                    content: '/page/table/sf/staffadd.html'
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
@@ -153,7 +154,7 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'edit') {
-
+                $('#hidValue').val(JSON.stringify(data));
                 var index = layer.open({
                     title: '编辑用户',
                     type: 2,
@@ -163,10 +164,9 @@
                     area: ['50%', '70%'],
                     content: '/page/table/sf/staffedit.html',
                     success:function (layero) {
-                        localStorage.setItem('uptateStaff', JSON.stringify(data));
                     }
                 });
-                $(window).on("resize", function () {
+                $(window).on("resize",function () {
                     layer.full(index);
                 });
                 return false;

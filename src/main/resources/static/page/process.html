@@ -47,6 +47,7 @@
 
     </div>
 </div>
+<input id="hidValue" style="display: none">
 <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table'], function () {
@@ -144,7 +145,7 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
             if (obj.event === 'edit') {
-
+                $('#hidValue').val(JSON.stringify(data));
                 var index = layer.open({
                     title: '编辑用户',
                     type: 2,
@@ -154,7 +155,7 @@
                     area: ['50%', '70%'],
                     content: '/page/table/ps/processedit.html',
                     success:function (layero) {
-                        localStorage.setItem('uptateProcess', JSON.stringify(data));
+                        //localStorage.setItem('uptateProcess', JSON.stringify(data));
                     }
                 });
                 $(window).on("resize", function () {
