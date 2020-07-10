@@ -59,6 +59,20 @@ public class OrderFormServiceImpl implements OrderFormService {
         PageHelper.startPage(pageNum,pageSize);
         return pyOrderFormMapper.selectByExample(ofExample);
     }
+    @Override
+    public List<PyOrderForm> OrderFormBySearch(int pageNum, int pageSize,String company,String styleNumber,String styleDescription,int isComplete) {
+        PyOrderFormExample ofExample = new PyOrderFormExample();
+        PyOrderFormExample.Criteria criteria = ofExample.createCriteria();
+        criteria.andCompanyLike("%"+company+"%");
+        criteria.andStyleNumberLike("%"+styleNumber+"%");
+        criteria.andStyleDescriptionLike("%"+styleDescription+"%");
+        if (isComplete!=-1) {
+            criteria.andIsCompleteEqualTo(isComplete);
+        }
+        ofExample.setOrderByClause("id desc");
+        PageHelper.startPage(pageNum,pageSize);
+        return pyOrderFormMapper.selectByExample(ofExample);
+    }
 
     @Override
     public long totalOrderForm() {

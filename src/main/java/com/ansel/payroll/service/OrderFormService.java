@@ -27,6 +27,8 @@ public interface OrderFormService {
 
     List<PyOrderForm> listOrderForm(int pageNum,int pageSize);
 
+    List<PyOrderForm> OrderFormBySearch(int pageNum, int pageSize,String company,String styleNumber,String styleDescription,int isComplete);
+
     long totalOrderForm();
 
 

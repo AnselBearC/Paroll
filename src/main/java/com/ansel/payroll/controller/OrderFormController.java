@@ -102,9 +102,20 @@ public class OrderFormController {
     public CommonResult<CommonPage<PyOrderForm>> listOrderForm(@RequestParam(value = "pageNum",defaultValue = "1")
                                                                    @ApiParam("页码") Integer pageNum,
                                                                @RequestParam(value = "pageSize",defaultValue = "3")
-                                                                   @ApiParam("每页数量") Integer pageSize) {
-        List<PyOrderForm> OrderFormList = orderFormService.listOrderForm(pageNum,pageSize);
-        return CommonResult.success(CommonPage.restPage(OrderFormList));
+                                                                   @ApiParam("每页数量") Integer pageSize,
+                                                               @RequestParam(value = "company",defaultValue = "" ) String company,
+                                                               @RequestParam(value = "styleNumber",defaultValue = "" ) String styleNumber,
+                                                               @RequestParam(value = "styleDescription",defaultValue = "" ) String styleDescription,
+                                                               @RequestParam(value = "isComplete",defaultValue = "" ) Integer isComplete) {
+            if(isComplete==null) {
+                List<PyOrderForm> OrderFormList = orderFormService.listOrderForm(pageNum,pageSize);
+                return CommonResult.success(CommonPage.restPage(OrderFormList));
+            }else{
+                List<PyOrderForm> OrderFormList = orderFormService.OrderFormBySearch(pageNum,pageSize,company,styleNumber,styleDescription,isComplete);
+                return CommonResult.success(CommonPage.restPage(OrderFormList));
+            }
+
+
     }
 
 

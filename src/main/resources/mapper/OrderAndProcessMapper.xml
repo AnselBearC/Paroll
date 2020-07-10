@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansel.payroll.dao.OrderAndProcessDao">
+    <select id="getOpRelationList" resultMap="com.ansel.payroll.mbg.mapper.PyOrderProcessRelationMapper.BaseResultMap">
+      SELECT
+	    a.*, b.process_name From py_order_process_relation a
+      INNER JOIN py_process b ON a.process_id = b.id
+      WHERE order_id=#{orderId} ORDER BY a.id
+    </select>
+</mapper>

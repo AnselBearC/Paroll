@@ -15,60 +15,108 @@
     </style>
 </head>
 <body>
-    <div id="test6" class="demo-transfer"></div>
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-        <legend>工序定价</legend>
-    </fieldset>
-    <div class="layui-btn-container">
-        <button type="button" class="layui-btn" lay-demotransferactive="getData">获取右侧数据</button>
-        <button type="button" class="layui-btn" lay-demotransferactive="reload">重载实例</button>
-    </div>
-    <div id="test7" class="demo-transfer"></div>
+<table id="form-create" class="layui-table">
+    <thead>
+    <tr>
+        <th style="width: 50px;">序号</th>
+        <th width="30%">工序</th>
+        <th>价格</th>
 
-
+        <th style="width: 150px;">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="3">
+            <span>添加此衣服所需要的工序</span>
+        </td>
+        <td colspan="1">
+            <button type="button" class="layui-btn add">新增</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="../../../js/xm-select.js" charset="utf-8"></script>
 <script src="../../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['transfer', 'layer', 'util'], function(){
-        var $ = layui.$
-            ,transfer = layui.transfer
-            ,layer = layui.layer
-            ,util = layui.util;
+    layui.use(['form', 'jquery'], function () {
+        var $ = layui.jquery;
+        var orderFormJson = JSON.parse(parent.layui.$('#hidValue').val());//获取orderID
+        var orderId = orderFormJson.id;
+        //获取已添加的工序
+        $.ajax({
+            url: "/orderAndProcess/list/"+orderId,
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var processList = result.data;
+                for(var i =0;i<processList.length;i++) {
+                    var element = $([
+                        '<tr>',
+                        '<td ><div class="hideId" style="visibility: hidden">'+processList[i].id+'</div></td>',
+                        '<td class="process" width="30%">'+processList[i].processName+'</td>',
+                        '<td class="price" ><div class="layui-input-inline"><input type="number" name="actualNumber"  value='+processList[i].price+' class="layui-input"></div></td>',
+                        '<td class="handler">',
+                        '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
+                        '<button type="button" class="layui-btn layui-btn-normal cha">修改</button>',
+                        '</td>',
+                        '</tr>',
+                    ].join(''));
 
-        //模拟数据
-        var data1 = [
-            {"value": "1", "title": "李白"}
-            ,{"value": "2", "title": "杜甫"}
-            ,{"value": "3", "title": "苏轼"}
-            ,{"value": "4", "title": "李清照"}
-            ,{"value": "5", "title": "鲁迅", "disabled": true}
-            ,{"value": "6", "title": "巴金"}
-            ,{"value": "7", "title": "冰心"}
-            ,{"value": "8", "title": "矛盾"}
-            ,{"value": "9", "title": "贤心"}
-        ]
-    //实例调用
-    transfer.render({
-        elem: '#test7'
-        ,data: data1
-        ,showSearch: true
-        ,title: ['功序列表', '已选工序']
-        ,id: 'processList' //定义唯一索引
-    })
-    //批量办法定事件
-    util.event('lay-demoTransferActive', {
-        getData: function(othis){
-            var getData = transfer.getData('processList'); //获取右侧数据
-            layer.alert(JSON.stringify(getData));
-        }
-        ,reload:function(){
-            //实例重载
-            transfer.reload('processList', {
-                title: ['文人', '喜欢的文人']
-                ,value: ['2', '5', '9']
-                ,showSearch: true
-            })
-        }
+                    layui.$('#form-create tbody').append(element);
+                }
+
+            }, error: function () {
+                layer.msg('加载工序列表失败');
+            }
+        });
+
+
+        $('.add').on('click', function(){
+
+
+            layer.open({
+                title: '添加工序',
+                type: 2,
+                area: ['200px', '450px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: '/page/table/of/orderFormList.html',
+                btn:['确定','取消'],
+                yes:function (index,layero) {
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
+
+                    iframeWin.addProcess(orderId);
+                }
+                ,btn2:function (index,layero) {
+                    layer.close(index);
+                }
+            });
+
     });
+        //删除已选的工序
+        $('body').on('click','.del', function(){
+            var hideId = $(this).parents('tr').children('td').eq(0).children('div').html();//获取隐藏id
+            var thisEle = $(this);
+            //删除已选的工序
+            $.ajax({
+                url: "/orderAndProcess/delete/"+hideId,
+                type: "get",
+                success: function () {
+                    thisEle.parents('tr').remove();
+                    parent.layer.msg('删除成功');
+                }, error: function () {
+                    parent.layer.msg('删除失败');
+                }
+            });
+        });
+        //修改按钮
+        $('body').on('click','.cha' ,function(){
+
+            layer.msg("保存成功")
+        });
 
     });
 </script>

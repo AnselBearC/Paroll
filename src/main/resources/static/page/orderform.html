@@ -19,13 +19,35 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">用户姓名</label>
+                            <label class="layui-form-label">公司名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" autocomplete="off" class="layui-input">
+                                <input type="text" name="company" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                            <label class="layui-form-label">款号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="styleNumber" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">款式名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="styleDescription" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否结算</label>
+                            <div class="layui-input-block">
+                                <input type="radio" name="isComplete" value="0" title="否" >
+                                <input type="radio" name="isComplete" value="1" title="是">
+                                <input type="radio" name="isComplete" value="-1" title="无" checked>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                    lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -34,7 +56,7 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加</button>
             </div>
         </script>
 
@@ -60,17 +82,17 @@
         table.render({
             elem: '#currentTableId',
             url: '/orderform/list',
-            parseData:function(res) {
-                return{
+            parseData: function (res) {
+                return {
                     "code": res.code, //解析接口状态
                     "msg": res.message, //解析提示文本
                     "count": res.data.total, //解析数据长度
                     "data": res.data.list
                 };
             },
-            request:{
-                pageName:'pageNum',//页码的参数名称，默认：page
-                limitName:'pageSize'//每页数据量的参数名，默认：limit
+            request: {
+                pageName: 'pageNum',//页码的参数名称，默认：page
+                limitName: 'pageSize'//每页数据量的参数名，默认：limit
             },
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
@@ -85,15 +107,17 @@
                     {field: 'styleNumber', width: 120, title: '款号'},
                     {field: 'styleDescription', width: 120, title: '款式名称'},
                     {field: 'cuttingNumber', width: 100, title: '裁单数量'},
-                    {field: 'actualNumber', width:  100, title: '实际数量'},
-                    {field: 'isComplete', width: 100, title: '是否结算',templet:function (d) {
-                            if (d.isComplete===0) {
+                    {field: 'actualNumber', width: 100, title: '实际数量'},
+                    {
+                        field: 'isComplete', width: 100, title: '是否结算', templet: function (d) {
+                            if (d.isComplete === 0) {
                                 return '<span style="color: red">未结算</span>';
-                            }else {
+                            } else {
                                 return '<span style="color: green">已结算</span>';
                             }
 
-                        }},
+                        }
+                    },
                     {field: 'startDate', width: 130, title: '开始时间'},
                     {field: 'endingDate', width: 130, title: '到期时间'},
                     {field: 'note', width: 180, title: '备注'},
@@ -108,8 +132,8 @@
 
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
-            var stName = JSON.stringify(data.field);
-            var staffJson = JSON.parse(stName);
+            var searchInfor = JSON.stringify(data.field);
+            var ofJson = JSON.parse(searchInfor);
 
             //执行搜索重载
             table.reload('currentTableId', {
@@ -117,7 +141,10 @@
                     curr: 1
                 }
                 , where: {
-                    name: staffJson.username
+                    company:ofJson.company,
+                    styleNumber:ofJson.styleNumber,
+                    styleDescription:ofJson.styleDescription,
+                    isComplete:ofJson.isComplete
                 }
             }, 'data');
 
@@ -135,12 +162,12 @@
                     title: '添加订单',
                     type: 2,
                     shade: 0.2,
-                    maxmin:true,
+                    maxmin: true,
                     shadeClose: true,
                     area: ['70%', '80%'],
                     content: '/page/table/of/orderFormadd.html'
                 });
-                $(window).on( "resize",function () {
+                $(window).on("resize", function () {
                     layer.full(index);
                 });
             } else if (obj.event === 'delete') {  // 监听删除操作
@@ -163,13 +190,13 @@
                     title: '编辑订单',
                     type: 2,
                     shade: 0.2,
-                    maxmin:true,
+                    maxmin: true,
                     shadeClose: true,
                     area: ['50%', '70%'],
                     content: '/page/table/of/orderFormedit.html',
-                    success:function (layero,index) {
-                       // var body = layer.getChildFrame('body', index); //得到产品查询层的BODY
-                       // body.find('#hidValue').val(JSON.stringify(data)); //将本层的窗口索引传给产品查询层的hidValue中
+                    success: function (layero, index) {
+                        // var body = layer.getChildFrame('body', index); //得到产品查询层的BODY
+                        // body.find('#hidValue').val(JSON.stringify(data)); //将本层的窗口索引传给产品查询层的hidValue中
                         //localStorage.setItem('uptateOrderForm', JSON.stringify(data));
                     }
                 });
@@ -179,8 +206,8 @@
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                        url: "/orderform/delete/"+data.id,
-                        $.ajax({
+                    $.ajax({
+                        url: "/orderform/delete/" + data.id,
                         type: "get",
                         success: function () {
                             obj.del();
@@ -197,12 +224,13 @@
                     });
 
                 });
-            }else if(obj.event === 'details') {//监听定价操作
+            } else if (obj.event === 'details') {//监听定价操作
+                $('#hidValue').val(JSON.stringify(data));
                 var index = layer.open({
-                    title: '编辑订单',
+                    title: '工序定价',
                     type: 2,
                     shade: 0.2,
-                    maxmin:true,
+                    maxmin: true,
                     shadeClose: true,
                     area: ['50%', '70%'],
                     content: '/page/table/of/orderFormdetails.html'
