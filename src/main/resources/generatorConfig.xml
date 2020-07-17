@@ -36,7 +36,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.ansel.payroll.mbg.mapper"
                              targetProject="src/main/java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="py_order_process_relation">
+        <table tableName="py_payroll_detail">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

@@ -63,13 +63,13 @@
           "child": [
             {
               "title": "薪资预览",
-              "href": "page/welcome-1.html",
+              "href": "page/payroll.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             },
             {
               "title": "薪资结算",
-              "href": "page/welcome-1.html",
+              "href": "page/pay-calculation.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }

@@ -80,7 +80,7 @@
             layer.open({
                 title: '添加工序',
                 type: 2,
-                area: ['200px', '450px'],
+                area: ['230px', '430px'],
                 fixed: false, //不固定
                 maxmin: true,
                 content: '/page/table/of/orderFormList.html',
@@ -114,8 +114,21 @@
         });
         //修改按钮
         $('body').on('click','.cha' ,function(){
-
-            layer.msg("保存成功")
+            var hideId = $(this).parents('tr').children('td').eq(0).children('div').text();//获取隐藏id
+            var updatePrice = $(this).parents('tr').children('td').eq(2).children('div').children("input[name='actualNumber']").val();
+            //更新已选工序的价格
+            $.ajax({
+                url: "/orderAndProcess/update/"+hideId,
+                type: "post",
+                dataType: "json",
+                contentType: "application/json",
+                data: '{"price":'+updatePrice+'}',
+                success: function () {
+                    parent.layer.msg('修改成功');
+                }, error: function () {
+                    parent.layer.msg('修改失败');
+                }
+            });
         });
 
     });
