@@ -26,19 +26,19 @@
                                         <label class="layui-form-label">发薪日期:</label>
                                         <div class="layui-input-block">
                                             <input type="text" placeholder="请填写发薪日期" class="layui-input" id="pay-date"
-                                                   required>
+                                                   required lay-verify="required" autocomplete="off">
                                         </div>
                                     </div>
 
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">订单选择:</label>
                                         <div class="layui-input-block">
-                                            <input type="text" name placeholder="请输入" autocomplete="off"
-                                                   class="layui-input" id="orderFormList" ts-selected="" required>
+                                            <input type="text" name placeholder="请输入订单" autocomplete="off"
+                                                   class="layui-input" id="orderFormList" ts-selected="" required lay-verify="required">
                                         </div>
                                     </div>
                                     <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit lay-filter="formStep">
+                                        <button class="layui-btn" lay-submit lay-filter="prepositionBtn">
                                             &emsp;下一步&emsp;
                                         </button>
                                     </div>
@@ -47,15 +47,86 @@
 
                             <!--填写员工信息-->
                             <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">姓名:</label>
+                                        <div class="layui-input-block">
+                                            <!--<input type="text" name placeholder="请输入" autocomplete="off" id="staffName"-->
+                                                   <!--class="layui-input"  ts-selected="" required>-->
+                                            <div id="staffName" ></div>
+                                        </div>
+                                    </div>
 
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">备注信息:</label>
+                                        <div class="layui-input-block" >
+                                            <textarea name="note" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn pre" lay-submit >
+                                                前置条件
+                                            </button>
+                                            <button class="layui-btn" lay-submit lay-filter="SettlementStep">
+                                                下一步
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
+
                             <!--填写工资详情-->
                             <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 800px;padding-top: 40px;">
+                                    <table id="form-create" class="layui-table">
+                                        <thead>
+                                        <tr>
+                                            <th>款式</th>
+                                            <th>工序</th>
+                                            <th style="width: 20%">数量</th>
+                                            <th style="width: 23%">价格</th>
+                                            <th style="width: 65px">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="4">
+                                                <span id="staffPayrollCard" style="width: 60%;float: right;">计算工资明细</span>
+                                            </td>
+                                            <td colspan="1">
+                                                <div class="layui-btn-group">
+                                                    <button type="button" class="layui-btn add">增加</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
 
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn pre" lay-submit >
+                                            上一步
+                                        </button>
+                                        <button class="layui-btn affirmNext" lay-submit lay-filter="formStep">
+                                            下一步
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                             <!--完成界面-->
                             <div>
-                                <p>完成</p>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn pre" lay-submit >
+                                            上一步
+                                        </button>
+                                        <button class="layui-btn" lay-submit lay-filter="formStep">
+                                            确认结算
+                                        </button>
+                                    </div>
+                                </form>
 
                             </div>
                         </div>
@@ -67,6 +138,8 @@
     </div>
     <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+    <script src="../js/axios.min.js" charset="utf-8"></script>
+    <script src="../js/xm-select.js" charset="utf-8"></script>
     <script>
         layui.use(['form', 'step', 'laydate','tableSelect'], function () {
             var $ = layui.$,
@@ -74,13 +147,17 @@
                 laydate = layui.laydate,
                 tableSelect = layui.tableSelect,
                 step = layui.step;
+
+
+            //前端条件信息
+            var prepositionInfo = new Object();
             //  设置分布表单
             step.render({
                 elem: '#stepForm',
                 filter: 'stepForm',
                 width: '100%', //设置容器宽度
-                stepWidth: '750px',
-                height: '500px',
+                stepWidth: '800px',
+                height: '750px',
                 stepItems: [{
                     title: '前提条件'
                 }, {
@@ -96,7 +173,7 @@
                 elem: '#pay-date',
                 type: 'month'
             });
-            //设置多选
+            //订单设置多选
             tableSelect.render({
                 elem: '#orderFormList',	//定义输入框input对象 必填
                 checkedKey: 'id', //表格的唯一建值，非常重要，影响到选中状态 必填
@@ -118,20 +195,18 @@
                     },
                     cols: [
                         [
+                            {type:  'checkbox',width: 50},
                             {field: 'id', width: 80, title: 'ID', sort: true},
                             {field: 'company', width: 160, title: '所属公司'},
-                            {field: 'styleNumber', width: 120, title: '款号'},
                             {field: 'styleDescription', width: 120, title: '款式名称'},
                             {field: 'cuttingNumber', width: 100, title: '裁单数量'},
                             {field: 'actualNumber', width: 100, title: '实际数量'},
-                            {
-                                field: 'isComplete', width: 100, title: '是否结算', templet: function (d) {
+                            {field: 'isComplete', width: 100, title: '是否结算', templet: function (d) {
                                     if (d.isComplete === 0) {
                                         return '<span style="color: red">未结算</span>';
                                     } else {
                                         return '<span style="color: green">已结算</span>';
                                     }
-
                                 }
                             },
                             {field: 'note', width: 180, title: '备注'},
@@ -140,27 +215,154 @@
                     limits: [10, 15, 20, 25, 50, 100],
                     limit: 10,
                     page: true,
-                    skin: 'line'
                 },
                 done: function (elem, data) {
                     //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
                     //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                    var orderFormName = [];
+                    var orderFormId = [];
+                    layui.each(data.data,function (index,item){
+                        orderFormName.push(item.styleDescription) ;
+                        var ofStr = {name:item.styleDescription,value:item.id};
+                        orderFormId.push(ofStr);
+                    });
+                    prepositionInfo.orderFormId = orderFormId;
+                    elem.val(orderFormName.join(","));
                 }
+            });
+            //员工选择框
+            var xmSelectStaff = xmSelect.render({
+               el:"#staffName",
+               radio:true,
+               clickClose:true,
+               paging: true,
+               pageSize: 8,
+               height: '520px',
+               prop:{
+                   name:'name',
+                    value:'id'
+               }
+            });
+            //加载员工列表
+            axios({
+                method: 'get',
+                url: '/staff/listAll',
+            }).then(response => {
+                var res = response.data;
+
+            xmSelectStaff.update({
+                data: res.data
             })
+            });
 
+            var index = 0;
+            //新增计算工资明细
+            $('.add').on('click', function(){
+                var element = $([
+                    '<tr>',
+                        '<td class="paOrder"></td>',
+                        '<td class="paProcess"></td>',
+                        '<td style="width: 20%">',
+                        '<div class="layui-inline"><input type="number" name="paCount" placeholder="请输入件数" class="layui-input paCount" ></div>',
+                        '</td>',
+                        '<td style="width: 23%"><span  class="paPrices" style="font-weight: bold"></span></td>',
+                        '<td>',
+                            '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
+                        '</td>',
+                    '</tr>',
+                ].join(''));
+                var styleId=null;
+                var styleName = element.find('.paOrder')[0];
+                var processName = element.find('.paProcess')[0];
+                var styleSelect = xmSelect.render({
+                    el: styleName,
+                    radio: true,
+                    clickClose: true,
+                    data: function(){
+                        return prepositionInfo.orderFormId
+                    },
+                    on:function(data) {
+                      //当前选中的值
+                      styleId = data.arr;
+                    },
+                    //关闭下拉框的操作
+                    hide() {
+                        //选择完成后回调,显示工序列表
+                        $.get("/orderAndProcess/list/"+styleId[0].value,function(data){
+                            //动态赋值下拉框
+                            processSelect.update({
+                                data:data.data
+                            })
+                        });
+                    }
+                });
+                var processInfo = null;
+                var processSelect = xmSelect.render({
+                    el: processName,
+                    radio: true,
+                    clickClose: true,
+                    prop: {
+                        name:'processName',
+                        value:'id',
+                    },
+                    on:function(data) {
+                        processInfo = data.arr;
+                    }
+                });
+                //监听数量输入框
+                element.find('.paCount').bind('input propertychange', function (e) {
+                    var paCount = $(this).parents('tr').children('td').eq(2).children('div').children("input[name='paCount']").val();
+                    var processPrice = processInfo[0].price;
+                    //计算某个工序价格
+                    var totalPrice = paCount*processPrice;
+                    $(this).parents('tr').children('td').eq(3).children('span').html(processPrice+'×'+paCount+'='+totalPrice.toFixed(2));
+                });
+                element.find('.del').on('click', function(){
+                    index--;
+                    $(this).parents('tr').remove();
+                });
+                index++;
+                $('#form-create tbody').append(element)
+            });
 
+            //获取前置条件数据
+            form.on('submit(prepositionBtn)', function (data) {
+                prepositionInfo.payDate = $('#pay-date').val();
+                step.next('#stepForm');
+                return false;
+            });
+
+            //进入计算工资详情界面
+            form.on('submit(SettlementStep)', function (data) {
+                if(data.field.select==="") {
+                    layer.msg("姓名不能为空");
+                }else {
+                    prepositionInfo.staffId = data.field.select;
+                    prepositionInfo.note = data.field.note;
+                    var staffName = xmSelectStaff.getValue('name');
+                    $('#staffPayrollCard').html('['+staffName[0]+']结算工资明细表');
+                    step.next('#stepForm');
+                }
+
+                return false;
+            });
+            //进入工资单确认页面
+            $('.affirmNext').click(function () {
+
+                console.log(index);
+               // step.next('#stepForm');
+                return false;
+            });
+
+            //无操作下一步
             form.on('submit(formStep)', function (data) {
                 step.next('#stepForm');
                 return false;
             });
-
-            form.on('submit(formStep2)', function (data) {
-                step.next('#stepForm');
-                return false;
-            });
-
+            //返回上一步
             $('.pre').click(function () {
                 step.pre('#stepForm');
+                return false;
             });
 
             $('.next').click(function () {
