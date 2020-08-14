@@ -24,4 +24,6 @@ public interface OrderAndProcessService {
     int updateOrderProcessRelation(Integer id,PyOrderProcessRelation pyOrderProcessRelation);
 
     int deleteOrderProcessRelation(Integer id);
+
+    int deleteOrderProcessRelationByOrderId(Integer orderId);
 }

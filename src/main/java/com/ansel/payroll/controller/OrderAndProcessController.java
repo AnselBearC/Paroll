@@ -88,4 +88,20 @@ public class OrderAndProcessController {
         }
         return commonResult;
     }
+
+    @ApiOperation("删除订单所有的的工序")
+    @RequestMapping(value = "/deleteAll/{orderId}",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult deleteAllOrderProcessRelation(@PathVariable("orderId") Integer orderId) {
+        int count = orderAndProcessService.deleteOrderProcessRelationByOrderId(orderId);
+        CommonResult commonResult;
+        if(count == 1) {
+            LOGGER.debug("deleteOrderProcessRelationByOrderId success: orderId={}",orderId);
+            commonResult = CommonResult.success(null);
+        }else {
+            LOGGER.debug("deleteOrderProcessRelationByOrderId failed: orderId={}",orderId);
+            commonResult = CommonResult.failed("操作失败");
+        }
+        return commonResult;
+    }
 }

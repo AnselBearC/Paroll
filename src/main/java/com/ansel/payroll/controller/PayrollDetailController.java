@@ -81,15 +81,15 @@ public class PayrollDetailController {
     }
 
     @ApiOperation("删除工资明细")
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{payrollId}",method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult deletePayrollDetail(@PathVariable("id") Integer id) {
-        int count = payrollDetailService.deletePayrollDetail(id);
+    public CommonResult deletePayrollDetail(@PathVariable("payrollId") Integer payrollId) {
+        int count = payrollDetailService.deletePayrollDetail(payrollId);
         if(count == 1) {
-            LOGGER.debug("deletePayrollDetail success id:{}",id);
-            return CommonResult.success(payrollDetailService.deletePayrollDetail(id));
+            LOGGER.debug("deletePayrollDetail success payrollId:{}",payrollId);
+            return CommonResult.success(payrollDetailService.deletePayrollDetail(payrollId));
         }else {
-            LOGGER.debug("deletePayroll failed id:{}",id);
+            LOGGER.debug("deletePayroll failed payrollId:{}",payrollId);
             return CommonResult.failed("操作失败");
         }
 

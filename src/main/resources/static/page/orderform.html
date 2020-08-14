@@ -101,8 +101,8 @@
                 icon: 'layui-icon-tips'
             }],
             cols: [
-                [
-                    {field: 'id', width: 80, title: 'ID', sort: true},
+                [   {align:'center', title: '编号', type:'numbers',width:80},
+                    {field: 'id', width: 80, title: 'ID', hide:true},
                     {field: 'company', width: 160, title: '所属公司'},
                     {field: 'styleNumber', width: 120, title: '款号'},
                     {field: 'styleDescription', width: 120, title: '款式名称'},
@@ -206,22 +206,25 @@
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    $.ajax({
-                        url: "/orderform/delete/" + data.id,
-                        type: "get",
-                        success: function () {
-                            obj.del();
-                            table.reload('currentTableId', {
-                                page: {
-                                    curr: 1
-                                }
-                            }, 'data');
-                            layer.close(index);
-                            layer.msg('删除成功');
-                        }, error: function () {
-                            layer.msg('删除失败');
-                        }
+                    $.get('/orderAndProcess/deleteAll/'+data.id,function () {
+                        $.ajax({
+                            url: "/orderform/delete/" + data.id,
+                            type: "get",
+                            success: function () {
+                                obj.del();
+                                table.reload('currentTableId', {
+                                    page: {
+                                        curr: 1
+                                    }
+                                }, 'data');
+                                layer.close(index);
+                                layer.msg('删除成功');
+                            }, error: function () {
+                                layer.msg('删除失败');
+                            }
+                        });
                     });
+
 
                 });
             } else if (obj.event === 'details') {//监听定价操作

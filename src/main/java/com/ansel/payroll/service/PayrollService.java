@@ -24,7 +24,9 @@ public interface PayrollService {
 
     int deletePayroll(Integer id);
 
-    List<PyPayroll> listPayroll(int pageNum, int pageSize);
+    List<PyPayroll> listPayroll(int pageNum, int pageSize,String payDate);
+
+    Float totalSalary(String payDate);
 
     PyPayroll getPayroll (Integer id);
 }

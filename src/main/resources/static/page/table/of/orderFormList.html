@@ -56,7 +56,6 @@
         })
         });
 
-
         window.addProcess = function(orderId){
             var processStr = JSON.stringify(processSelect.getValue(),null,2);//获取工序ID
             var processJson = JSON.parse(processStr);
@@ -65,18 +64,9 @@
             if(processSelect.getValue().length===0||processPrice<=0) {
                 parent.layer.msg("请填写正确的工序和价格");
             }else{
+
                 var opDate = {"orderId":orderId, "processId":processJson[0].id,"price":processPrice};//添加的工序信息
-                var element = $([
-                    '<tr>',
-                    '<td ><div class="hideId" style="visibility: hidden">'+processJson[0].id+'</div></td>',
-                    '<td class="process" width="30%">'+processJson[0].processName+'</td>',
-                    '<td class="price" ><div class="layui-input-inline"><input type="number" name="actualNumber"  value='+processPrice+' class="layui-input"></div></td>',
-                    '<td class="handler">',
-                    '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
-                    '<button type="button" class="layui-btn layui-btn-normal cha">修改</button>',
-                    '</td>',
-                    '</tr>',
-                ].join(''));
+
                 //发送ajax请求,添加工序
                 $.ajax({
                     url: "/orderAndProcess/create",
@@ -84,8 +74,18 @@
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify(opDate),
-                    success: function () {
-
+                    success: function (data) {
+                        var element = $([
+                            '<tr>',
+                            '<td ><div class="hideId" style="visibility: hidden">'+data.data.id+'</div></td>',
+                            '<td class="process" width="30%">'+processJson[0].processName+'</td>',
+                            '<td class="price" ><div class="layui-input-inline"><input type="number" name="actualNumber"  value='+processPrice+' class="layui-input"></div></td>',
+                            '<td class="handler">',
+                            '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
+                            '<button type="button" class="layui-btn layui-btn-normal cha">修改</button>',
+                            '</td>',
+                            '</tr>',
+                        ].join(''));
                         parent.layui.$('#form-create tbody').append(element);  //添加工序列表
                         parent.layer.close(index);//关闭窗口
                         parent.layer.msg('添加成功');
@@ -97,9 +97,6 @@
         };
     });
     //获取url上的值
-    function test() {
-        layer.alert("测试成功");
-    }
     function getQueryVariable(variable)
     {
         var query = window.location.search.substring(1);

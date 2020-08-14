@@ -37,22 +37,12 @@
                                                    class="layui-input" id="orderFormList" ts-selected="" required lay-verify="required">
                                         </div>
                                     </div>
-                                    <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit lay-filter="prepositionBtn">
-                                            &emsp;下一步&emsp;
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
 
-                            <!--填写员工信息-->
-                            <div>
-                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">姓名:</label>
+                                        <label class="layui-form-label">员工姓名:</label>
                                         <div class="layui-input-block">
                                             <!--<input type="text" name placeholder="请输入" autocomplete="off" id="staffName"-->
-                                                   <!--class="layui-input"  ts-selected="" required>-->
+                                            <!--class="layui-input"  ts-selected="" required>-->
                                             <div id="staffName" ></div>
                                         </div>
                                     </div>
@@ -63,27 +53,21 @@
                                             <textarea name="note" class="layui-textarea" placeholder="请输入备注信息"></textarea>
                                         </div>
                                     </div>
-
-
-                                    <div class="layui-form-item">
-                                        <div class="layui-input-block">
-                                            <button class="layui-btn pre" lay-submit >
-                                                前置条件
-                                            </button>
-                                            <button class="layui-btn" lay-submit lay-filter="SettlementStep">
-                                                下一步
-                                            </button>
-                                        </div>
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="prepositionBtn">
+                                            &emsp;下一步&emsp;
+                                        </button>
                                     </div>
                                 </form>
                             </div>
 
                             <!--填写工资详情-->
                             <div>
-                                <form class="layui-form" style="margin: 0 auto;max-width: 800px;padding-top: 40px;">
+                                <form class="layui-form" style="margin: 0 auto;max-width: 850px;padding-top: 40px;">
                                     <table id="form-create" class="layui-table">
                                         <thead>
                                         <tr>
+                                            <th style="width: 6%">序号</th>
                                             <th>款式</th>
                                             <th>工序</th>
                                             <th style="width: 20%">数量</th>
@@ -93,7 +77,7 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td colspan="4">
+                                            <td colspan="5">
                                                 <span id="staffPayrollCard" style="width: 60%;float: right;">计算工资明细</span>
                                             </td>
                                             <td colspan="1">
@@ -105,7 +89,7 @@
                                         </tbody>
                                     </table>
 
-                                    <div class="layui-input-block">
+                                    <div style="margin-left: 38%">
                                         <button class="layui-btn pre" lay-submit >
                                             上一步
                                         </button>
@@ -115,19 +99,60 @@
                                     </div>
                                 </form>
                             </div>
-                            <!--完成界面-->
+                            <!--确认工资信息-->
                             <div>
                                 <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
-                                    <div class="layui-input-block">
-                                        <button class="layui-btn pre" lay-submit >
-                                            上一步
-                                        </button>
-                                        <button class="layui-btn" lay-submit lay-filter="formStep">
-                                            确认结算
-                                        </button>
+
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">员工姓名:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux verify-name"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">发薪月份:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux verify-month"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">当月工资:</label>
+                                        <div class="layui-input-block">
+                                            <span  class="verify-salary layui-form-mid" style="font-size: 18px;color: #333;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">备注说明:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux verify-note" ></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn pre" lay-submit >
+                                                上一步
+                                            </button>
+                                            <button class="layui-btn confirmBtn">
+                                                确认结算
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
-
+                            </div>
+                            <!--完成界面-->
+                            <div>
+                                <div style="text-align: center;margin-top: 90px;">
+                                    <i class="layui-icon layui-circle"
+                                       style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+                                    <div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+                                        结算成功
+                                    </div>
+                                </div>
+                                <div style="text-align: center;margin-top: 50px;">
+                                    <button class="layui-btn next" >再入一笔</button>
+                                    <button class="layui-btn layui-btn-primary pay-view">查看工资单</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,6 +161,7 @@
 
         </div>
     </div>
+    <input id="hidValue" style="display: none">
     <script src="../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
     <script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
     <script src="../js/axios.min.js" charset="utf-8"></script>
@@ -150,9 +176,11 @@
 
 
             //前端条件信息
-            var prepositionInfo = new Object();
+            var prepositionInfo ={};
+            var styleInfo = {}
+            var payrollDetail = new Array();
             //  设置分布表单
-            step.render({
+             step.render({
                 elem: '#stepForm',
                 filter: 'stepForm',
                 width: '100%', //设置容器宽度
@@ -161,9 +189,9 @@
                 stepItems: [{
                     title: '前提条件'
                 }, {
-                    title: '填写员工信息'
-                }, {
                     title: '填写工资详情'
+                }, {
+                    title: '确认工资信息'
                 }, {
                     title: '完成'
                 }]
@@ -171,7 +199,9 @@
             //设置日期
             laydate.render({
                 elem: '#pay-date',
-                type: 'month'
+                type: 'month',
+                value: new Date(),
+                format: 'yyyy年MM月'
             });
             //订单设置多选
             tableSelect.render({
@@ -226,7 +256,7 @@
                         var ofStr = {name:item.styleDescription,value:item.id};
                         orderFormId.push(ofStr);
                     });
-                    prepositionInfo.orderFormId = orderFormId;
+                    styleInfo.orderFormId = orderFormId;
                     elem.val(orderFormName.join(","));
                 }
             });
@@ -255,22 +285,23 @@
             })
             });
 
-            var index = 0;
+            var index = 1;
             //新增计算工资明细
             $('.add').on('click', function(){
                 var element = $([
-                    '<tr>',
+                    '<tr class="added-line">',
+                        '<td class="line" style="width: 6%">'+index+'</td>',
                         '<td class="paOrder"></td>',
                         '<td class="paProcess"></td>',
                         '<td style="width: 20%">',
-                        '<div class="layui-inline"><input type="number" name="paCount" placeholder="请输入件数" class="layui-input paCount" ></div>',
+                        '<div class="layui-inline"><input type="number" name="paCount" placeholder="请输入件数" class="layui-input paCount"></div>',
                         '</td>',
                         '<td style="width: 23%"><span  class="paPrices" style="font-weight: bold"></span></td>',
                         '<td>',
                             '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
                         '</td>',
                     '</tr>',
-                ].join(''));
+            ].join(''));
                 var styleId=null;
                 var styleName = element.find('.paOrder')[0];
                 var processName = element.find('.paProcess')[0];
@@ -279,7 +310,7 @@
                     radio: true,
                     clickClose: true,
                     data: function(){
-                        return prepositionInfo.orderFormId
+                        return styleInfo.orderFormId
                     },
                     on:function(data) {
                       //当前选中的值
@@ -311,47 +342,136 @@
                 });
                 //监听数量输入框
                 element.find('.paCount').bind('input propertychange', function (e) {
-                    var paCount = $(this).parents('tr').children('td').eq(2).children('div').children("input[name='paCount']").val();
-                    var processPrice = processInfo[0].price;
-                    //计算某个工序价格
-                    var totalPrice = paCount*processPrice;
-                    $(this).parents('tr').children('td').eq(3).children('span').html(processPrice+'×'+paCount+'='+totalPrice.toFixed(2));
+                    var line  = $(this).parents('tr').children('td').eq(0).text();
+                    if(processInfo===null){
+                        payrollDetail.splice(line-1,1);
+                    }else {
+                        var paCount = $(this).parents('tr').children('td').eq(3).children('div').children("input[name='paCount']").val();
+                        if (paCount<=0.99||paCount==="") {
+                            payrollDetail.splice(line-1,1);
+                        } else {
+                            var orderName = styleSelect.getValue('name');
+                            var processPrice = processInfo[0].price;
+                            //计算某个工序价格
+                            var totalPrice = paCount*processPrice;
+                            //工资明细存入数组中
+                            payrollDetail[line-1] = {orderName:orderName[0],processName:processInfo[0].processName,amount:paCount,unit:processPrice,totalPrices:totalPrice.toFixed(2)};
+                            $(this).parents('tr').children('td').eq(4).children('span').html(processPrice+'×'+paCount+'='+totalPrice.toFixed(2));
+                        }
+                    }
                 });
                 element.find('.del').on('click', function(){
+                    var line  = $(this).parents('tr').children('td').eq(0).val();
+                    var paCount = $(this).parents('tr').children('td').eq(3).children('div').children("input[name='paCount']").val();
+                    if(paCount==="") {
+                        $(this).parents('tr').remove();
+                    }else {
+                        payrollDetail.splice(line-1,1);
+                        $(this).parents('tr').remove();
+                    }
+
                     index--;
-                    $(this).parents('tr').remove();
                 });
+
                 index++;
                 $('#form-create tbody').append(element)
             });
 
             //获取前置条件数据
             form.on('submit(prepositionBtn)', function (data) {
-                prepositionInfo.payDate = $('#pay-date').val();
-                step.next('#stepForm');
-                return false;
-            });
 
-            //进入计算工资详情界面
-            form.on('submit(SettlementStep)', function (data) {
+                prepositionInfo.payDate = $('#pay-date').val();
+
                 if(data.field.select==="") {
                     layer.msg("姓名不能为空");
                 }else {
+                    var staffName = xmSelectStaff.getValue('name');
                     prepositionInfo.staffId = data.field.select;
                     prepositionInfo.note = data.field.note;
-                    var staffName = xmSelectStaff.getValue('name');
+                    prepositionInfo.staffName = staffName[0];
+
                     $('#staffPayrollCard').html('['+staffName[0]+']结算工资明细表');
                     step.next('#stepForm');
                 }
 
                 return false;
             });
+
+
             //进入工资单确认页面
+            var salary =0.00;
             $('.affirmNext').click(function () {
 
-                console.log(index);
-               // step.next('#stepForm');
+                
+                if(index-1!==payrollDetail.length||payrollDetail.length===0) {
+                    layer.msg("请填写完整信息");
+                }else {
+                    for (var i=0;i<payrollDetail.length;i++) {
+                        salary = Number(payrollDetail[i].totalPrices)+Number(salary);
+                    }
+                    $('.verify-name').text(prepositionInfo.staffName);
+                    $('.verify-month').text(prepositionInfo.payDate);
+                    $('.verify-salary').text(salary.toFixed(2)+'元');
+                    $('.verify-note').text(prepositionInfo.note);
+                    step.next('#stepForm');
+                }
+
                 return false;
+            });
+            //确认并录入工资信息
+            var payrolldata = null;
+            $('.confirmBtn').click(function () {
+                prepositionInfo.salary = salary.toFixed(2);
+                var salaryData = JSON.stringify(prepositionInfo);
+
+                $.ajax({
+                    url: "/payroll/create",
+                    type: "post",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: salaryData,
+                    success: function (data) {
+                        payrolldata = data.data;
+                        var payrollId = data.data.id;
+                        //添加工资单详情
+                        for (var i=0;i<payrollDetail.length;i++) {
+                            payrollDetail[i].payrollId = payrollId;
+                            var detailData = JSON.stringify(payrollDetail[i]);
+                            $.ajax({
+                                url: "/payrollDetail/create",
+                                type: "post",
+                                dataType: "json",
+                                contentType: "application/json",
+                                data: detailData,
+                                error:function () {
+                                    layer.msg('结算失败');
+                                    step.pre('#stepForm');
+                                    return false;
+                                }
+                            })
+                        }
+                        step.next('#stepForm');
+                    }, error: function () {
+                        parent.layer.msg('结算失败');
+                        step.pre('#stepForm');
+                    }
+                });
+
+                return false;
+            });
+
+
+            //重新结算下个人工资
+            $('.next').click(function () {
+                //重新清空
+
+                xmSelectStaff.setValue([]);//清空员工栏位
+                $('.added-line').empty();
+                index = 1;
+                salary = 0.00;
+                prepositionInfo ={};//清空数组
+                payrollDetail.length= 0;
+                step.next('#stepForm');
             });
 
             //无操作下一步
@@ -361,13 +481,29 @@
             });
             //返回上一步
             $('.pre').click(function () {
+                salary = 0.00;
                 step.pre('#stepForm');
                 return false;
             });
+            //查看工资单
+            $('.pay-view').click(function () {
+                $('#hidValue').val(JSON.stringify(payrolldata));
+                var index = layer.open({
+                    title: '工资单详情',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: ['50%', '70%'],
+                    content: '/page/table/py/payrollDetail.html',
+                    success: function (layero, index) {
 
-            $('.next').click(function () {
-                step.next('#stepForm');
-            });
+                    }
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            })
         })
     </script>
 </body>

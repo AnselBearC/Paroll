@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工资详情单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div style="margin: 0 auto;">
+            <table class="layui-table" id="staffPayrollTable">
+                <!--<colgroup>-->
+                    <!--<col>-->
+                    <!--<col>-->
+                    <!--<col>-->
+                <!--</colgroup>-->
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>款式</th>
+                    <th>工序</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>工资</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="5">
+                        <span id="staffPayrollCard" style="width: 60%;float: right;font-weight: bold">工资明细</span>
+                    </td>
+                    <td colspan="1">
+                        <span id="staffSalary" style="font-weight: bold"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="../../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['jquery'],function () {
+        var $ = layui.jquery;
+        var payrollInfo = JSON.parse(parent.layui.$('#hidValue').val());
+        var index = 1;
+        $('#staffPayrollCard').text('['+payrollInfo.staffName+']'+'当月工资详情单');
+        $('#staffSalary').text('当月工资:'+payrollInfo.salary);
+
+        $.get('/payrollDetail/list/'+payrollInfo.id,function (data) {
+            var payrollData = data.data;
+            for (var i=0;i<payrollData.length;i++) {
+                var element = $([
+                    '<tr>',
+                    '<td>'+index+'</td>',
+                    '<td>'+payrollData[i].orderName+'</td>',
+                    '<td>'+payrollData[i].processName+'</td>',
+                    '<td>'+payrollData[i].amount+'</td>',
+                    '<td>'+payrollData[i].unit+'</td>',
+                    '<td style="font-weight: bold">'+payrollData[i].totalPrices+'</td>',
+                    '</tr>',
+                ].join(''));
+                index++;
+                $('#staffPayrollTable tbody').append(element);
+            }
+
+        })
+    })
+</script>
+</body>
+</html>

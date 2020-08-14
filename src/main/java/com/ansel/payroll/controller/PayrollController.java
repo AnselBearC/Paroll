@@ -37,7 +37,7 @@ public class PayrollController {
 
     @Autowired
     private PayrollService payrollService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(StaffController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PayrollController.class);
 
     @ApiOperation("获取所有工资列表")
     @RequestMapping(value = "/listAll",method = RequestMethod.GET)
@@ -102,9 +102,11 @@ public class PayrollController {
     public CommonResult<CommonPage<PyPayroll>> listPayroll(@RequestParam(value = "pageNum",defaultValue = "1")
                                                          @ApiParam("页码") Integer pageNum,
                                                      @RequestParam(value = "pageSize",defaultValue = "3")
-                                                         @ApiParam("每页数量") Integer pageSize) {
+                                                         @ApiParam("每页数量") Integer pageSize,
+                                                            @RequestParam(value = "payDate")
+                                                         @ApiParam("发薪日期") String payDate){
 
-        List<PyPayroll> listPayroll = payrollService.listPayroll(pageNum,pageSize);
+        List<PyPayroll> listPayroll = payrollService.listPayroll(pageNum,pageSize,payDate);
         return CommonResult.success(CommonPage.restPage(listPayroll));
 
     }

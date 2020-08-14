@@ -21,13 +21,12 @@
         <th style="width: 50px;">序号</th>
         <th width="30%">工序</th>
         <th>价格</th>
+
         <th style="width: 150px;">操作</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td style="display: none" colspan="1">
-        </td>
         <td colspan="1">
         </td>
         <td colspan="1">
@@ -52,7 +51,6 @@
         var $ = layui.jquery;
         var orderFormJson = JSON.parse(parent.layui.$('#hidValue').val());//获取orderID
         var orderId = orderFormJson.id;
-        var index = 1;
 
         //获取工序列表
         var processSelect = xmSelect.render({
@@ -94,8 +92,7 @@
                 for(var i =0;i<processList.length;i++) {
                     var element = $([
                         '<tr>',
-                        '<td style="display: none"><div class="hideId" >'+processList[i].id+'</div></td>',
-                        '<td><span>'+index+'</span></td>',
+                        '<td ><div class="hideId" style="visibility: hidden">'+processList[i].id+'</div></td>',
                         '<td class="process" width="30%">'+processList[i].processName+'</td>',
                         '<td class="price" ><div class="layui-input-inline"><input type="number" name="actualNumber"  value='+processList[i].price+' class="layui-input"></div></td>',
                         '<td class="handler">',
@@ -104,7 +101,7 @@
                         '</td>',
                         '</tr>',
                     ].join(''));
-                    index++;
+
                     layui.$('#form-create tbody').append(element);
                 }
 
@@ -115,76 +112,47 @@
 
 
         $('.add').on('click', function(){
-            var processStr = JSON.stringify(processSelect.getValue(),null,2);//获取工序ID
-            var processJson = JSON.parse(processStr);
-            var processPrice = $('#processPrice').val();//工序价格
 
-            if(processSelect.getValue().length===0||processPrice<=0) {
-                parent.layer.msg("请填写正确的工序和价格");
-            }else{
 
-                var opDate = {"orderId":orderId, "processId":processJson[0].id,"price":processPrice};//添加的工序信息
+            layer.open({
+                title: '添加工序',
+                type: 2,
+                area: ['230px', '430px'],
+                fixed: false, //不固定
+                maxmin: true,
+                content: '/page/table/of/orderFormList.html',
+                btn:['确定','取消'],
+                yes:function (index,layero) {
+                    var iframeWin = window[layero.find('iframe')[0]['name']];
 
-                //发送ajax请求,添加工序
-                $.ajax({
-                    url: "/orderAndProcess/create",
-                    type: "post",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify(opDate),
-                    success: function (data) {
-                        var element = $([
-                            '<tr>',
-                            '<td style="display:none"><div class="hideId" >'+data.data.id+'</div></td>',
-                            '<td><span>'+index+'</span></td>',
-                            '<td class="process" width="30%">'+processJson[0].processName+'</td>',
-                            '<td class="price" ><div class="layui-input-inline"><input type="number" name="actualNumber"  value='+processPrice+' class="layui-input"></div></td>',
-                            '<td class="handler">',
-                            '<button type="button" class="layui-btn layui-btn-danger del">删除</button>',
-                            '<button type="button" class="layui-btn layui-btn-normal cha">修改</button>',
-                            '</td>',
-                            '</tr>',
-                        ].join(''));
-                        layui.$('#form-create tbody').append(element);  //添加工序列表
-                        index++;
-                        processSelect.setValue([]);
-                        $('#processPrice').val('0.0');
-                        layer.msg('添加成功');
-                    }, error: function () {
-                        layer.msg('添加失败');
-                    }
-                });
-            }
-
+                    iframeWin.addProcess(orderId);
+                }
+                ,btn2:function (index,layero) {
+                    layer.close(index);
+                }
             });
 
+    });
         //删除已选的工序
         $('body').on('click','.del', function(){
-            var hideId = $(this).parents('tr').children('td').eq(0).children('div').text();//获取隐藏id
-            var serialNumber = $(this).parents('tr').children('td').eq(1).children('span').text();
+            var hideId = $(this).parents('tr').children('td').eq(0).children('div').html();//获取隐藏id
             var thisEle = $(this);
-            if (serialNumber<index-1) {
-                layer.msg("请按顺序删除");
-            }else {
-                //删除已选的工序
-                $.ajax({
-                    url: "/orderAndProcess/delete/"+hideId,
-                    type: "get",
-                    success: function () {
-                        thisEle.parents('tr').remove();
-                        index--;
-                        layer.msg('删除成功');
-                    }, error: function () {
-                        layer.msg('删除失败');
-                    }
-                });
-            }
-
+            //删除已选的工序
+            $.ajax({
+                url: "/orderAndProcess/delete/"+hideId,
+                type: "get",
+                success: function () {
+                    thisEle.parents('tr').remove();
+                    parent.layer.msg('删除成功');
+                }, error: function () {
+                    parent.layer.msg('删除失败');
+                }
+            });
         });
         //修改按钮
         $('body').on('click','.cha' ,function(){
             var hideId = $(this).parents('tr').children('td').eq(0).children('div').text();//获取隐藏id
-            var updatePrice = $(this).parents('tr').children('td').eq(3).children('div').children("input[name='actualNumber']").val();
+            var updatePrice = $(this).parents('tr').children('td').eq(2).children('div').children("input[name='actualNumber']").val();
             //更新已选工序的价格
             $.ajax({
                 url: "/orderAndProcess/update/"+hideId,

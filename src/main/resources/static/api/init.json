@@ -1,7 +1,7 @@
 {
   "homeInfo": {
     "title": "首页",
-    "href": "page/home-page?t=1"
+    "href": "home-page?t=1"
   },
   "logoInfo": {
     "title": "Payroll",
@@ -17,19 +17,25 @@
       "child": [
         {
           "title": "首页",
-          "href": "page/home-page",
+          "href": "home-page",
           "icon": "fa fa-home",
           "target": "_self"
         },
         {
-          "title": "员工资料",
+          "title": "基本资料",
           "href": "",
           "icon": "fa fa-home",
           "target": "_self",
           "child": [
             {
-              "title": "基本资料",
+              "title": "员工资料",
               "href": "page/employee.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "公司资料",
+              "href": "page/company.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }

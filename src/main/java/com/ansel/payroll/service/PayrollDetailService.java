@@ -21,7 +21,7 @@ public interface PayrollDetailService {
 
     int updatePayrollDetail(Integer id,PyPayrollDetail pyPayrollDetail);
 
-    int deletePayrollDetail(Integer id);
+    int deletePayrollDetail(Integer payrollId);
 
     List<PyPayrollDetail> listPayrollDetail(Integer payrollId);
 }

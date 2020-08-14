@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>添加新员工</title>
+    <title>编辑公司信息</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
-    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <link rel="stylesheet" href="../../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../css/public.css" media="all">
     <style>
         body {
             background-color: #ffffff;
@@ -15,33 +15,25 @@
     </style>
 </head>
 <body>
-<div class="layui-form layuimini-form" style="width: 90%">
+<div class="layui-form layuimini-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;" lay-filter="companyForm">
     <div class="layui-form-item">
-        <label class="layui-form-label required">姓名</label>
+        <label class="layui-form-label required">公司名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" lay-reqtext="用户名不能为空" placeholder="请输入用户名" value=""
-                   class="layui-input">
-            <tip>填写员工姓名。</tip>
+            <input type="text" name="companyName" lay-verify="required" lay-reqtext="公司名不能为空" placeholder="请输入公司名称" value=""
+                   class="layui-input" autocomplete="off">
+            <tip>填写公司名称。</tip>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">性别</label>
+        <label class="layui-form-label">联系电话</label>
         <div class="layui-input-block">
-            <input type="radio" name="sex" value="0" title="女" checked="">
-            <input type="radio" name="sex" value="1" title="男">
+            <input type="text" name="contactTel" placeholder="请输入公司联系电话" class="layui-input" autocomplete="off">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">手机</label>
+        <label class="layui-form-label">公司地址</label>
         <div class="layui-input-block">
-            <input type="number" name="telephone" maxlength="11" lay-verify="required" lay-reqtext="手机不能为空"
-                   placeholder="请输入手机" value="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">年龄</label>
-        <div class="layui-input-block">
-            <input type="number" name="age" placeholder="请输入年龄" value="" class="layui-input">
+            <input type="text" name="companyAddr" placeholder="请输入公司地址" class="layui-input" autocomplete="off">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -57,22 +49,26 @@
         </div>
     </div>
 </div>
-<script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+</div>
+<script src="../../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
+
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
             $ = layui.jquery;
-
-
+        //获取选中的数据并赋值给表单
+        var companyData = parent.layui.$('#hidValue').val(); // 获取父页面中id为“hidValue”的值。
+        var companyJson = JSON.parse(companyData);
+        //赋值给表单
+        form.val("companyForm",companyJson);
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var index = layer.alert("是否提交", {
+            var index = layer.alert('确认更新？', {
                 title: ''
             }, function () {
-
                 $.ajax({
-                    url: "/staff/create",
+                    url: "/company/update/"+companyJson.id,
                     type: "post",
                     dataType: "json",
                     contentType: "application/json",
@@ -83,10 +79,11 @@
 
                         var iframeIndex = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(iframeIndex);
-                        parent.layer.msg('添加成功');
                         parent.layui.table.reload("currentTableId");
+                        parent.layer.msg('修改成功');
                     }, error: function () {
-                        parent.layer.msg('添加失败');
+                        localStorage.removeItem('uptateProcess');
+                        layer.msg('修改失败');
                     }
                 });
 

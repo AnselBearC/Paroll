@@ -35,13 +35,16 @@ public class PayrollDetailServiceImpl implements PayrollDetailService {
     @Override
     public int updatePayrollDetail(Integer id, PyPayrollDetail pyPayrollDetail) {
         pyPayrollDetail.setId(id);
-        pyPayrollDetail.setCreateTime(null);
         return pyPayrollDetailMapper.updateByPrimaryKey(pyPayrollDetail);
     }
 
     @Override
-    public int deletePayrollDetail(Integer id) {
-        return pyPayrollDetailMapper.deleteByPrimaryKey(id);
+    public int deletePayrollDetail(Integer payrollId) {
+        PyPayrollDetailExample ppdExample = new PyPayrollDetailExample();
+        PyPayrollDetailExample.Criteria criteria = ppdExample.createCriteria();
+        criteria.andPayrollIdEqualTo(payrollId);
+        return pyPayrollDetailMapper.deleteByExample(ppdExample);
+
     }
 
     @Override
@@ -51,4 +54,6 @@ public class PayrollDetailServiceImpl implements PayrollDetailService {
         criteria.andPayrollIdEqualTo(payrollId);
         return pyPayrollDetailMapper.selectByExample(ppdExample);
     }
+
+
 }

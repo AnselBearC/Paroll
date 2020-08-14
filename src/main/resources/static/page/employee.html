@@ -78,7 +78,8 @@
             }],
             cols: [
                 [
-                {field: 'id', width: 80, title: 'ID', sort: true},
+                {align:'center', title: '编号', type:'numbers',width:80},
+                {field: 'id', width: 80, title: 'ID', hide:true},
                 {field: 'name', width: 100, title: '姓名'},
                 {field: 'sex', width: 80, title: '性别',templet:function (d) {
                         if (d.sex===0) {

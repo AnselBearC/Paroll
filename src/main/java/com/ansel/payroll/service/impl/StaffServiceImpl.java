@@ -52,8 +52,10 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<PyStaff> listStaff(int pageNum, int pageSize) {
+        PyStaffExample psExample = new PyStaffExample();
+        psExample.setOrderByClause("id desc");
         PageHelper.startPage(pageNum,pageSize);
-        return pyStaffMapper.selectByExample(new PyStaffExample());
+        return pyStaffMapper.selectByExample(psExample);
     }
     @Override
     public long totalStaff(){
@@ -66,6 +68,7 @@ public class StaffServiceImpl implements StaffService {
         PyStaffExample.Criteria criteria = psExample.createCriteria();
         PageHelper.startPage(pageNum,pageSize);
         criteria.andNameLike("%"+name+"%");
+        psExample.setOrderByClause("id desc");
         return pyStaffMapper.selectByExample(psExample);
     }
 

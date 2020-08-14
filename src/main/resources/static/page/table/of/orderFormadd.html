@@ -19,11 +19,12 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-        <label class="layui-form-label required">所属公司</label>
-        <div class="layui-input-block">
-            <input type="text" name="company" lay-verify="required" lay-reqtext="公司名不能为空" placeholder="请输入公司名" value=""
-                   class="layui-input">
-        </div>
+            <label class="layui-form-label">所属公司</label>
+            <div class="layui-input-block">
+                <select id="companySelect" name="company" lay-verify="required" lay-reqtext="公司名不能为空">
+                    <option value=""></option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -32,7 +33,7 @@
             <div class="layui-input-block">
                 <input type="text" name="styleNumber" lay-verify="required" lay-reqtext="款号不能为空" placeholder="请输入款号"
                        value=""
-                       class="layui-input">
+                       class="layui-input" autocomplete="off">
             </div>
         </div>
         <div class="layui-inline">
@@ -40,7 +41,7 @@
             <div class="layui-input-block">
                 <input type="text" name="styleDescription" lay-verify="required" lay-reqtext="款式名称不能为空"
                        placeholder="请输入款式名称" value=""
-                       class="layui-input">
+                       class="layui-input" autocomplete="off">
             </div>
         </div>
     </div>
@@ -48,13 +49,13 @@
         <div class="layui-inline">
             <label class="layui-form-label">裁单数量</label>
             <div class="layui-input-block">
-                <input type="number" name="cuttingNumber"  value="0" class="layui-input">
+                <input type="number" name="cuttingNumber"  value="0" class="layui-input" autocomplete="off">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">实际数量</label>
             <div class="layui-input-block">
-                <input type="number" name="actualNumber"  value="0" class="layui-input">
+                <input type="number" name="actualNumber"  value="0" class="layui-input" autocomplete="off">
             </div>
         </div>
     </div>
@@ -108,6 +109,17 @@
             elem: '#endingDate',
             trigger: 'click'
         });
+
+       //公司选择
+        $.get('/company/listAll',function (data) {
+            var element = "";
+            data = data.data;
+            for (var i=0 ;i<data.length;i++) {
+                element += '<option value="'+data[i].companyName+'">'+data[i].companyName+'</option>'
+            }
+            $("#companySelect").append(element);
+            renderForm();
+        });
         //监听提交
         form.on('submit(saveBtn)', function (data) {
             var index = layer.alert("是否提交", {
@@ -139,6 +151,12 @@
         });
 
     });
+    function renderForm(){
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
+    }
 </script>
 </body>
 </html>

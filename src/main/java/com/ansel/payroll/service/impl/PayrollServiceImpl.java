@@ -12,6 +12,7 @@
 
 package com.ansel.payroll.service.impl;
 
+import com.ansel.payroll.dao.SalaryStatDao;
 import com.ansel.payroll.mbg.mapper.PyPayrollMapper;
 import com.ansel.payroll.mbg.model.PyPayroll;
 import com.ansel.payroll.mbg.model.PyPayrollExample;
@@ -27,6 +28,8 @@ public class PayrollServiceImpl implements PayrollService {
 
     @Autowired
     PyPayrollMapper pyPayrollMapper;
+    @Autowired
+    SalaryStatDao salaryStatDao;
 
     @Override
     public List<PyPayroll> listAllPayroll() {
@@ -51,9 +54,22 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public List<PyPayroll> listPayroll(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
-        return pyPayrollMapper.selectByExample(new PyPayrollExample());
+    public List<PyPayroll> listPayroll(int pageNum, int pageSize,String payDate) {
+        if (payDate.length()==0) {
+            PageHelper.startPage(pageNum, pageSize);
+            return pyPayrollMapper.selectByExample(new PyPayrollExample());
+        }else {
+            PyPayrollExample ppExa = new PyPayrollExample();
+            PyPayrollExample.Criteria criteria = ppExa.createCriteria();
+            criteria.andPayDateEqualTo(payDate);
+            PageHelper.startPage(pageNum, pageSize);
+            return pyPayrollMapper.selectByExample(ppExa);
+        }
+    }
+
+    @Override
+    public Float totalSalary(String payDate) {
+        return salaryStatDao.getSalaryTotal(payDate);
     }
 
     @Override

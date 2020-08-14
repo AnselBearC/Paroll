@@ -31,6 +31,5 @@ public interface OrderFormService {
 
     long totalOrderForm();
 
-
     PyOrderForm getOrderForm(Integer id);
 }

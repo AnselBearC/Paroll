@@ -15,6 +15,7 @@ package com.ansel.payroll.service.impl;
 import com.ansel.payroll.dao.OrderAndProcessDao;
 import com.ansel.payroll.mbg.mapper.PyOrderProcessRelationMapper;
 import com.ansel.payroll.mbg.model.PyOrderProcessRelation;
+import com.ansel.payroll.mbg.model.PyOrderProcessRelationExample;
 import com.ansel.payroll.service.OrderAndProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,13 @@ public class OrderAndProcessServiceImpl implements OrderAndProcessService {
     @Override
     public int deleteOrderProcessRelation(Integer id) {
         return pyOrderProcessRelationMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteOrderProcessRelationByOrderId(Integer orderId){
+        PyOrderProcessRelationExample prExample = new PyOrderProcessRelationExample();
+        PyOrderProcessRelationExample.Criteria criteria = prExample.createCriteria();
+        criteria.andOrderIdEqualTo(orderId);
+        return pyOrderProcessRelationMapper.deleteByExample(prExample);
     }
 }
