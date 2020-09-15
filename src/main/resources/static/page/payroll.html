@@ -106,7 +106,7 @@
                         }},
                     {field: 'payDate', width: 120, title: '发薪日期'},
                     {field: 'createTime', width: 200, title: '结算时间',templet:function(d){if(d.createTime!==null){return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
-                    {field: 'note', width: 200, title: '备注'},
+                    {field: 'note', width: 150, title: '备注'},
                     {title: '操作', minWidth: 160, toolbar: '#currentTableBar', align: "center"}
                 ]
             ],
@@ -126,7 +126,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['50%', '70%'],
+                    area: ['80%', '70%'],
                     content: '/page/table/py/payrollDetail.html',
                     success: function (layero, index) {
 
