@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansel.payroll.mbg.mapper.PyOrderFormMapper">
+  <resultMap id="BaseResultMap" type="com.ansel.payroll.mbg.model.PyOrderForm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="style_number" jdbcType="VARCHAR" property="styleNumber" />
+    <result column="style_description" jdbcType="VARCHAR" property="styleDescription" />
+    <result column="cutting_number" jdbcType="INTEGER" property="cuttingNumber" />
+    <result column="actual_number" jdbcType="INTEGER" property="actualNumber" />
+    <result column="is_complete" jdbcType="INTEGER" property="isComplete" />
+    <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+    <result column="ending_date" jdbcType="VARCHAR" property="endingDate" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="update_time" jdbcType="DATE" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, company, style_number, style_description, cutting_number, actual_number, is_complete, 
+    start_date, ending_date, note, create_time, update_time, status
+  </sql>
+  <select id="selectByExample" parameterType="com.ansel.payroll.mbg.model.PyOrderFormExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from py_order_form
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from py_order_form
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from py_order_form
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ansel.payroll.mbg.model.PyOrderFormExample">
+    delete from py_order_form
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ansel.payroll.mbg.model.PyOrderForm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_order_form (company, style_number, style_description, 
+      cutting_number, actual_number, is_complete, 
+      start_date, ending_date, note, 
+      create_time, update_time, status
+      )
+    values (#{company,jdbcType=VARCHAR}, #{styleNumber,jdbcType=VARCHAR}, #{styleDescription,jdbcType=VARCHAR}, 
+      #{cuttingNumber,jdbcType=INTEGER}, #{actualNumber,jdbcType=INTEGER}, #{isComplete,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=VARCHAR}, #{endingDate,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{updateTime,jdbcType=DATE}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ansel.payroll.mbg.model.PyOrderForm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_order_form
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="company != null">
+        company,
+      </if>
+      <if test="styleNumber != null">
+        style_number,
+      </if>
+      <if test="styleDescription != null">
+        style_description,
+      </if>
+      <if test="cuttingNumber != null">
+        cutting_number,
+      </if>
+      <if test="actualNumber != null">
+        actual_number,
+      </if>
+      <if test="isComplete != null">
+        is_complete,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endingDate != null">
+        ending_date,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="styleNumber != null">
+        #{styleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="styleDescription != null">
+        #{styleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cuttingNumber != null">
+        #{cuttingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="actualNumber != null">
+        #{actualNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isComplete != null">
+        #{isComplete,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endingDate != null">
+        #{endingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ansel.payroll.mbg.model.PyOrderFormExample" resultType="java.lang.Long">
+    select count(*) from py_order_form
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update py_order_form
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.styleNumber != null">
+        style_number = #{record.styleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.styleDescription != null">
+        style_description = #{record.styleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cuttingNumber != null">
+        cutting_number = #{record.cuttingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualNumber != null">
+        actual_number = #{record.actualNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.isComplete != null">
+        is_complete = #{record.isComplete,jdbcType=INTEGER},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endingDate != null">
+        ending_date = #{record.endingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=DATE},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update py_order_form
+    set id = #{record.id,jdbcType=INTEGER},
+      company = #{record.company,jdbcType=VARCHAR},
+      style_number = #{record.styleNumber,jdbcType=VARCHAR},
+      style_description = #{record.styleDescription,jdbcType=VARCHAR},
+      cutting_number = #{record.cuttingNumber,jdbcType=INTEGER},
+      actual_number = #{record.actualNumber,jdbcType=INTEGER},
+      is_complete = #{record.isComplete,jdbcType=INTEGER},
+      start_date = #{record.startDate,jdbcType=VARCHAR},
+      ending_date = #{record.endingDate,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=DATE},
+      update_time = #{record.updateTime,jdbcType=DATE},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ansel.payroll.mbg.model.PyOrderForm">
+    update py_order_form
+    <set>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="styleNumber != null">
+        style_number = #{styleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="styleDescription != null">
+        style_description = #{styleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="cuttingNumber != null">
+        cutting_number = #{cuttingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="actualNumber != null">
+        actual_number = #{actualNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isComplete != null">
+        is_complete = #{isComplete,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endingDate != null">
+        ending_date = #{endingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ansel.payroll.mbg.model.PyOrderForm">
+    update py_order_form
+    set company = #{company,jdbcType=VARCHAR},
+      style_number = #{styleNumber,jdbcType=VARCHAR},
+      style_description = #{styleDescription,jdbcType=VARCHAR},
+      cutting_number = #{cuttingNumber,jdbcType=INTEGER},
+      actual_number = #{actualNumber,jdbcType=INTEGER},
+      is_complete = #{isComplete,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      ending_date = #{endingDate,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      update_time = #{updateTime,jdbcType=DATE},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

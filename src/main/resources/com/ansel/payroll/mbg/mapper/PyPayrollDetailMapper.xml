@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ansel.payroll.mbg.mapper.PyPayrollDetailMapper">
+  <resultMap id="BaseResultMap" type="com.ansel.payroll.mbg.model.PyPayrollDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="payroll_id" jdbcType="INTEGER" property="payrollId" />
+    <result column="order_name" jdbcType="VARCHAR" property="orderName" />
+    <result column="process_name" jdbcType="VARCHAR" property="processName" />
+    <result column="amount" jdbcType="VARCHAR" property="amount" />
+    <result column="unit" jdbcType="DECIMAL" property="unit" />
+    <result column="total_prices" jdbcType="DECIMAL" property="totalPrices" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, payroll_id, order_name, process_name, amount, unit, total_prices, create_time, 
+    note, status
+  </sql>
+  <select id="selectByExample" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from py_payroll_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from py_payroll_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from py_payroll_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetailExample">
+    delete from py_payroll_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_payroll_detail (payroll_id, order_name, process_name, 
+      amount, unit, total_prices, 
+      create_time, note, status
+      )
+    values (#{payrollId,jdbcType=INTEGER}, #{orderName,jdbcType=VARCHAR}, #{processName,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=VARCHAR}, #{unit,jdbcType=DECIMAL}, #{totalPrices,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetail">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into py_payroll_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payrollId != null">
+        payroll_id,
+      </if>
+      <if test="orderName != null">
+        order_name,
+      </if>
+      <if test="processName != null">
+        process_name,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="totalPrices != null">
+        total_prices,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payrollId != null">
+        #{payrollId,jdbcType=INTEGER},
+      </if>
+      <if test="orderName != null">
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="processName != null">
+        #{processName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null">
+        #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetailExample" resultType="java.lang.Long">
+    select count(*) from py_payroll_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update py_payroll_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.payrollId != null">
+        payroll_id = #{record.payrollId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderName != null">
+        order_name = #{record.orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processName != null">
+        process_name = #{record.processName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalPrices != null">
+        total_prices = #{record.totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update py_payroll_detail
+    set id = #{record.id,jdbcType=INTEGER},
+      payroll_id = #{record.payrollId,jdbcType=INTEGER},
+      order_name = #{record.orderName,jdbcType=VARCHAR},
+      process_name = #{record.processName,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=DECIMAL},
+      total_prices = #{record.totalPrices,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      note = #{record.note,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetail">
+    update py_payroll_detail
+    <set>
+      <if test="payrollId != null">
+        payroll_id = #{payrollId,jdbcType=INTEGER},
+      </if>
+      <if test="orderName != null">
+        order_name = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="processName != null">
+        process_name = #{processName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null">
+        total_prices = #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ansel.payroll.mbg.model.PyPayrollDetail">
+    update py_payroll_detail
+    set payroll_id = #{payrollId,jdbcType=INTEGER},
+      order_name = #{orderName,jdbcType=VARCHAR},
+      process_name = #{processName,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=DECIMAL},
+      total_prices = #{totalPrices,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
