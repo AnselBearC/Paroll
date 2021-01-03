@@ -67,8 +67,8 @@
                     {field: 'contactTel', width: 120, title: '联系电话'},
                     {field: 'companyAddr', width: 200, title: '公司地址'},
                     {field: 'note', width: 200, title: '备注'},
-                    {field: 'createTime', width: 200, title: '创建时间',templet:function(d){if(d.createTime!==null){return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
-                    {field: 'updateTime', width: 200, title: '更新时间',templet:function(d){if(d.updateTime!==null){return layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
+                    // {field: 'createTime', width: 200, title: '创建时间',templet:function(d){if(d.createTime!==null){return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
+                    // {field: 'updateTime', width: 200, title: '更新时间',templet:function(d){if(d.updateTime!==null){return layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
                     {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
                 ]
             ],
@@ -109,7 +109,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['40%', '60%'],
+                    area: ['40%', '90%'],
                     content: '/page/table/co/companyadd.html'
                 });
                 $(window).on("resize", function () {
@@ -133,7 +133,7 @@
                     shade: 0.2,
                     maxmin:true,
                     shadeClose: true,
-                    area: ['40%', '60%'],
+                    area: ['40%', '90%'],
                     content: '/page/table/co/companyedit.html',
                     success:function (layero) {
                         //localStorage.setItem('uptateProcess', JSON.stringify(data));

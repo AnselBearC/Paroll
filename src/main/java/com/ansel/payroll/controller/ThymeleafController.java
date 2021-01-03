@@ -51,12 +51,20 @@ public class ThymeleafController {
     @ApiOperation("主页")
     @GetMapping(value = "home-page")
     public String homePage(ModelMap map) {
+        float totalSalary;
+
         Date ss = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");
         String payDate = format.format(ss.getTime());
-        float totalSalary = payrollService.totalSalary(payDate);
+
+        if (payrollService.totalSalary(payDate)==null){
+            totalSalary = (float) 0.0;
+        }else {
+            totalSalary = payrollService.totalSalary(payDate);
+        }
         long totalStaff = staffService.totalStaff();
         long totalOrderForm = orderFormService.totalOrderForm();
+
         map.put("totalSalary",totalSalary);
         map.put("totalStaff",totalStaff);
         map.put("totalOrderForm",totalOrderForm);

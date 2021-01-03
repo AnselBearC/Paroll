@@ -41,7 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public int updateCompany(Integer id, PyCompany pyCompany) {
         pyCompany.setId(id);
-        pyCompany.setCreateTime(null);
+        pyCompany.setCreatTime(null);
         return pyCompanyMapper.updateByPrimaryKey(pyCompany);
     }
 

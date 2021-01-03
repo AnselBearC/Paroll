@@ -118,10 +118,11 @@
 
                         }
                     },
-                    {field: 'startDate', width: 130, title: '开始时间'},
-                    {field: 'endingDate', width: 130, title: '到期时间'},
-                    {field: 'note', width: 180, title: '备注'},
-                    {title: '操作', minWidth: 160, toolbar: '#currentTableBar', align: "center"}
+                    {title: '操作', minWidth: 160, toolbar: '#currentTableBar', align: "center"},
+                    {field: 'startDate', width: 130, title: '开始时间',templet:function(d){if(d.startDate!==null){return layui.util.toDateString(d.startDate, 'yyyy-MM-dd');}else {return ""}}},
+                    {field: 'endingDate', width: 130, title: '到期时间',templet:function(d){if(d.endingDate!==null){return layui.util.toDateString(d.endingDate, 'yyyy-MM-dd');}else {return ""}}},
+                    {field: 'note', width: 180, title: '备注'}
+
                 ]
             ],
             limits: [10, 15, 20, 25, 50, 100],
@@ -164,7 +165,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['70%', '80%'],
+                    area: ['70%', '98%'],
                     content: '/page/table/of/orderFormadd.html'
                 });
                 $(window).on("resize", function () {
@@ -192,7 +193,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['70%', '70%'],
+                    area: ['70%', '98%'],
                     content: '/page/table/of/orderFormedit.html',
                     success: function (layero, index) {
                         // var body = layer.getChildFrame('body', index); //得到产品查询层的BODY
@@ -235,7 +236,7 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['70%', '70%'],
+                    area: ['70%', '95%'],
                     content: '/page/table/of/orderFormdetails.html'
                 });
                 $(window).on("resize", function () {

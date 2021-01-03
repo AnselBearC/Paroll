@@ -81,7 +81,7 @@
                 [
                     {align:'center', title: '编号', type:'numbers',width:80},
                     {field: 'id', width: 80, title: 'ID', hide:true},
-                    {field: 'processName', width: 100, title: '工序名称'},
+                    {field: 'processName', width: 180, title: '工序名称'},
                     {field: 'note', width: 200, title: '备注'},
                     {field: 'createTime', width: 200, title: '创建时间',templet:function(d){if(d.createTime!==null){return layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},
                     {field: 'updateTime', width: 200, title: '更新时间',templet:function(d){if(d.updateTime!==null){return layui.util.toDateString(d.updateTime, 'yyyy-MM-dd HH:mm:ss');}else {return ""}}},

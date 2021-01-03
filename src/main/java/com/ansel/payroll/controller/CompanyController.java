@@ -50,7 +50,7 @@ public class CompanyController {
     @ResponseBody
     public CommonResult createCompany(@RequestBody PyCompany pyCompany){
         Date date = new Date();
-        pyCompany.setCreateTime(date);
+        pyCompany.setCreatTime(date);
         CommonResult commonResult;
         int count = companyService.createCompany(pyCompany);
         if (count == 1) {

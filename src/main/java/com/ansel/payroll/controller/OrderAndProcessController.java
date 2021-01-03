@@ -61,6 +61,8 @@ public class OrderAndProcessController {
     @RequestMapping(value = "/update/{id}",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateOrderAndProcess(@PathVariable("id") Integer id,@RequestBody PyOrderProcessRelation pyOrderProcessRelation) {
+        pyOrderProcessRelation.setOrderId(null);
+        pyOrderProcessRelation.setProcessId(null);
         int count = orderAndProcessService.updateOrderProcessRelation(id,pyOrderProcessRelation);
         CommonResult commonResult;
         if(count == 1) {
